@@ -15,10 +15,31 @@ class Ball {
         ctx.fill();
         ctx.closePath();
     }
+
+    update(canvas) {
+        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+            this.dx = -this.dx;
+        }
+
+        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+            this.dy = -this.dy;
+        }
+
+        this.x += this.dx;
+        this.y += this.dy;
+
+        this.draw(ctx);
+    }
 }
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const ball = new Ball(200, 160, 20, 2, 2, 'red');
 
-ball.draw(ctx);
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ball.update(canvas);
+    requestAnimationFrame(animate);
+}
+
+animate();
